@@ -1,0 +1,30 @@
+# Copy to configs/dry_run.yaml and fill in the serial numbers from `lerobot-find-cameras realsense`.
+# Camera roles follow the model's expected order [top, left, right] (HF model card).
+# Never copy the sample serials from the reference Gist.
+cameras:
+  top:   { serial: "REPLACE_WITH_D435_TOP_SERIAL",   width: 640, height: 360, fps: 30 }
+  left:  { serial: "REPLACE_WITH_D405_LEFT_SERIAL",  width: 640, height: 360, fps: 30 }
+  right: { serial: "REPLACE_WITH_D405_RIGHT_SERIAL", width: 640, height: 360, fps: 30 }
+
+# Follower servers started by `python -m lerobot.scripts.setup_bi_yam_servers --eval`.
+arms:
+  host: localhost
+  left_port: 1235
+  right_port: 1234
+
+# Official FastAPI server: `uv run python examples/yam/host_server_yam.py --host 127.0.0.1 --port 8202`.
+policy:
+  server_url: "http://127.0.0.1:8202"
+  instruction: "Pick up the object and place it on the side."
+  normalization_tag: "yam_dual_molmoact2"
+  # num_steps: 10   # flow-matching steps; omit to use the server default
+
+# Thresholds only raise issues in the log; nothing is clipped or sent.
+checks:
+  max_first_step_delta: 0.5   # rad (or gripper units) between current state and first action
+  max_step_delta: 0.2         # rad between consecutive actions in a chunk
+
+# Optional per-joint bounds. Fill from the YAM documentation once confirmed on the real arm.
+# joint_limits:
+#   left_joint_0: [-3.0, 3.0]
+#   left_gripper: [0.0, 1.0]
