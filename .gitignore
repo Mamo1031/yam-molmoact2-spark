@@ -1,0 +1,35 @@
+# Claude Code working files (not shared)
+CLAUDE.md
+.claude/
+tasks/
+
+# Secrets
+.env
+.env.*
+*.token
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+dist/
+build/
+*.egg-info/
+
+# Raw experiment data (large captures, videos, checkpoints). Keep summaries in logs/.
+logs/raw/
+*.mp4
+*.bag
+*.safetensors
+
+# Large originals: keep them in logs/raw/ (ignored), commit only downsized copies
+*.HEIC
+*_full.jpg
