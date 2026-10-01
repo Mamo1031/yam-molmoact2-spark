@@ -32,6 +32,12 @@ class DryRunConfig:
     max_first_step_delta: float = 0.5
     max_step_delta: float = 0.2
     joint_limits: dict[str, tuple[float, float]] = field(default_factory=dict)
+    safety: dict[str, object] = field(default_factory=dict)
+    start_pose: list[float] | None = None
+    start_pose_tolerance: float = 0.15
+    table_z_in_base_frame: float | None = None
+    min_grasp_clearance_m: float = 0.03
+    kinematics_xml: str | None = None
 
     @classmethod
     def load(cls, path: str | Path) -> DryRunConfig:
@@ -55,6 +61,13 @@ class DryRunConfig:
                 raise ValueError(f"camera '{role}' still has a placeholder serial: {spec.serial}")
         limits_raw = raw.get("joint_limits", {}) or {}
         limits = {k: (float(v[0]), float(v[1])) for k, v in limits_raw.items()}
+        exec_raw = raw.get("execution", {}) or {}
+        start_pose = exec_raw.get("start_pose")
+        if start_pose is not None:
+            start_pose = [float(x) for x in start_pose]
+            if len(start_pose) != 14:
+                raise ValueError("execution.start_pose must have 14 values (left 7, right 7)")
+        table_z = exec_raw.get("table_z_in_base_frame")
         arms = raw.get("arms", {}) or {}
         policy = raw.get("policy", {}) or {}
         checks = raw.get("checks", {}) or {}
@@ -70,4 +83,10 @@ class DryRunConfig:
             max_first_step_delta=float(checks.get("max_first_step_delta", 0.5)),
             max_step_delta=float(checks.get("max_step_delta", 0.2)),
             joint_limits=limits,
+            safety=dict(raw.get("safety", {}) or {}),
+            start_pose=start_pose,
+            start_pose_tolerance=float(exec_raw.get("start_pose_tolerance", 0.15)),
+            table_z_in_base_frame=None if table_z is None else float(table_z),
+            min_grasp_clearance_m=float(exec_raw.get("min_grasp_clearance_m", 0.03)),
+            kinematics_xml=exec_raw.get("kinematics_xml"),
         )
