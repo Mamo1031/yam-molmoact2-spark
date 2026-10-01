@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Wrapper: run the guarded executor (or its analysis tools) inside the lerobot-client venv.
+#   g5 run --arms both --chunks 40 ...      -> run_policy_guarded.py --mode run ...
+#   g5 pose-guide | hold | shadow | direction-test | return-to-start | open-grippers ...
+#   g5 analyze <run_dir>   |   g5 trace <run_dir> [--arm right] [--every 30]
+set -euo pipefail
+cd ~/molmoact2-setup/tools
+source ~/molmoact2-setup/workspaces/lerobot-client/.venv/bin/activate
+mode="${1:?usage: g5 <mode> [options]}"; shift
+case "$mode" in
+  analyze) exec python scripts/analyze_g5_run.py "$@" ;;
+  trace)   exec python scripts/trace_g5_run.py "$@" ;;
+  return-to-start) exec python scripts/run_policy_guarded.py --mode return-to-start --max-step 0.004 --yes "$@" ;;
+  *)       exec python scripts/run_policy_guarded.py --mode "$mode" --yes --start-pose-tolerance 0.2 "$@" ;;
+esac
