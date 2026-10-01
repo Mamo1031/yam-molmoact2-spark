@@ -1,10 +1,10 @@
-# Copy to configs/dry_run.yaml and fill in the serial numbers from `lerobot-find-cameras realsense`.
+# Lab configuration (serials confirmed 2026-09-30 on the DGX Spark).
 # Camera roles follow the model's expected order [top, left, right] (HF model card).
 # Never copy the sample serials from the reference Gist.
 cameras:
-  top:   { serial: "REPLACE_WITH_D435_TOP_SERIAL",   width: 640, height: 360, fps: 30 }
-  left:  { serial: "REPLACE_WITH_D405_LEFT_SERIAL",  width: 640, height: 360, fps: 30 }
-  right: { serial: "REPLACE_WITH_D405_RIGHT_SERIAL", width: 640, height: 360, fps: 30 }
+  top:   { serial: "138422071505",   width: 640, height: 360, fps: 30 }
+  left:  { serial: "260322279321",  width: 640, height: 360, fps: 30 }
+  right: { serial: "260522272252", width: 640, height: 360, fps: 30 }
 
 # Follower servers started by `python -m lerobot.scripts.setup_bi_yam_servers --eval`.
 arms:
@@ -75,7 +75,7 @@ execution:
   start_pose_tolerance: 0.15
   # Table plane height in the arm base frame [m] (negative = below the base origin). MEASURE IT.
   # Leave null to disable the forward-kinematics height check (a warning is printed).
-  table_z_in_base_frame: null
+  table_z_in_base_frame: -0.014   # measured 2026-09-30: right -0.012, left -0.0138 (fingertips on table)
   # 2026-09-30: table_z was calibrated with the fingertips ON the table, so grasp_z == fingertip
   # height. 3 cm clearance forbade grasping a flat box (guard tripped at z=+0.014). 1 cm still
   # stopped every grasp of a small ball: the policy's own actions put the fingertips 0-2 cm above
