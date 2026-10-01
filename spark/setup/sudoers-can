@@ -1,0 +1,2 @@
+# Allow murata-lab to (re)configure CAN interfaces without a password (needed after every reboot and by reset_all_can.sh).
+murata-lab ALL=(root) NOPASSWD: /usr/sbin/ip link *, /usr/bin/udevadm *

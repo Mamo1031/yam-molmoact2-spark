@@ -1,0 +1,2 @@
+SUBSYSTEM=="net", ACTION=="add", ATTRS{serial}=="208E37AE45465006", NAME="can_follower_r"
+SUBSYSTEM=="net", ACTION=="add", ATTRS{serial}=="20A7378545465006", NAME="can_follower_l"
