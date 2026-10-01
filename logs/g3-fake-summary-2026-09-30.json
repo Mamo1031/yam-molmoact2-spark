@@ -1,0 +1,16 @@
+{
+  "queries": 6,
+  "latency": {
+    "count": 6.0,
+    "mean_ms": 437.7245951666282,
+    "median_ms": 433.37554349989205,
+    "p95_ms": 454.1463762499802,
+    "max_ms": 459.47277599998415,
+    "mean_ms_excluding_first": 433.374958999957
+  },
+  "all_ok": true,
+  "issues": [],
+  "instruction": "Pick up the object and place it on the side.",
+  "server_url": "http://127.0.0.1:8202/act",
+  "fake_sensors": true
+}
